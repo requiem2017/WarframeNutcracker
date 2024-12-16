@@ -264,7 +264,7 @@ def displayResults(results, errorItems):
     errorText.pack(fill="x", padx=5, pady=(5, 10))
 
 root = tk.Tk()
-root.title("Image Processor")
+root.title("Warframe 仓库清理助手")
 root.geometry("1200x800")
 allItems = getWarframeMarketData(initialize=True)
 
