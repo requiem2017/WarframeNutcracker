@@ -6,3 +6,8 @@
 ![alt text](https://github.com/requiem2017/WarframeDucatsOCR/blob/main/example/test.png)
 ## UI
 ![alt text](https://github.com/requiem2017/WarframeDucatsOCR/blob/main/example/UI.png)
+# TODO List
+- [ ] WF market 自动挂前x个值钱物品
+  - [ ] 只挂重复物品
+- [ ] 识别开核桃最值钱物品
+- [ ] 识别聊天栏WTS和WF market差价
