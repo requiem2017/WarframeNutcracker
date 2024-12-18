@@ -1,76 +1,10 @@
-albucore==0.0.13
-albumentations==1.4.10
-annotated-types==0.7.0
-anyio==4.7.0
-astor==0.8.1
-beautifulsoup4==4.12.3
-Bottleneck @ file:///C:/b/abs_816hr2khp1/croot/bottleneck_1731058648110/work
-certifi==2024.12.14
-charset-normalizer==3.4.0
-colorama==0.4.6
-contourpy==1.3.1
-cycler==0.12.1
-Cython==3.0.11
-decorator==5.1.1
-fire==0.7.0
-fonttools==4.55.3
 fuzzywuzzy==0.18.0
-h11==0.14.0
-httpcore==1.0.7
-httpx==0.28.1
-idna==3.10
-imageio==2.36.1
-imgaug==0.4.0
-joblib==1.4.2
-kiwisolver==1.4.7
-lazy_loader==0.4
-lmdb==1.5.1
-lxml==5.3.0
-matplotlib==3.10.0
-mkl-service==2.4.0
-mkl_fft @ file:///C:/Users/dev-admin/mkl/mkl_fft_1730823082242/work
-mkl_random @ file:///C:/Users/dev-admin/mkl/mkl_random_1730822522280/work
-networkx==3.4.2
-numexpr @ file:///C:/b/abs_05o8p7bfml/croot/numexpr_1730215959182/work
 numpy==1.26.4
-opencv-contrib-python==4.10.0.84
-opencv-python==4.10.0.84
-opencv-python-headless==4.10.0.84
-opt-einsum==3.3.0
-packaging @ file:///C:/b/abs_c3vlh0z4jw/croot/packaging_1720101866539/work
 paddleocr==2.9.1
 paddlepaddle==2.6.2
-pandas @ file:///C:/b/abs_e18w9ay4we/croot/pandas_1732735115740/work/dist/pandas-2.2.3-cp312-cp312-win_amd64.whl#sha256=2c8058e41dda2e7ecfff0740ad1d98f17d528c740f71b038c523a9d24d2321b0
-pefile @ file:///C:/b/abs_68oy9ka6fm/croot/pefile_1720651782540/work
-pillow @ file:///C:/b/abs_2cm0qc1vxk/croot/pillow_1731594717982/work
-protobuf==3.20.2
-pyclipper==1.3.0.post6
-pydantic==2.10.3
-pydantic_core==2.27.1
-pyinstaller @ file:///C:/b/abs_09h007ff52/croot/pyinstaller_1721682848440/work
-pyinstaller-hooks-contrib @ file:///C:/b/abs_deumjuw0e0/croot/pyinstaller-hooks-contrib_1721675898298/work
-pyparsing==3.2.0
-python-dateutil @ file:///C:/b/abs_3au_koqnbs/croot/python-dateutil_1716495777160/work
-python-docx==1.1.2
-pytz @ file:///C:/b/abs_6ap4tsz1ox/croot/pytz_1713974360290/work
-pywin32-ctypes @ file:///C:/b/abs_2cfx5l4nvi/croot/pywin32-ctypes_1709340246092/work
-PyYAML==6.0.2
-RapidFuzz==3.10.1
+pandas
+pillow
+pyinstaller
+pyinstaller-hooks-contrib
 requests==2.32.3
-scikit-image==0.25.0
-scikit-learn==1.6.0
 scipy==1.14.1
-setuptools==72.1.0
-shapely==2.0.6
-six @ file:///tmp/build/80754af9/six_1644875935023/work
-sniffio==1.3.1
-soupsieve==2.6
-termcolor==2.5.0
-threadpoolctl==3.5.0
-tifffile==2024.12.12
-tomli==2.2.1
-tqdm==4.67.1
-typing_extensions==4.12.2
-tzdata @ file:///croot/python-tzdata_1690578112552/work
-urllib3==2.2.3
-wheel==0.44.0
