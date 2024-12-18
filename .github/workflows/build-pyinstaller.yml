@@ -30,3 +30,9 @@ jobs:
     - name: Build with PyInstaller
       run: |
         pyinstaller stockOCR.spec
+
+    - name: Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: nutCracker
+        path: dist/
