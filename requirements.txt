@@ -1,6 +1,5 @@
 albucore==0.0.13
 albumentations==1.4.10
-altgraph @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/altgraph_1699497354496/work
 annotated-types==0.7.0
 anyio==4.7.0
 astor==0.8.1
