@@ -15,8 +15,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: x64
-
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.10
