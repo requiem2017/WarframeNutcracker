@@ -197,7 +197,7 @@ def getItemServerName(itemList):
                 if score > highestScore and score > 80:
                     highestScore = score
                     tempitemServerName = itemInfo["url_name"]
-                    tempmatchedName = item
+                    tempmatchedName = itemInfo["item_name"]
                     foundFlag = True
             
             if foundFlag:
