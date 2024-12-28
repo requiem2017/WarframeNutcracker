@@ -366,7 +366,7 @@ def displayResults(results, errorItems):
                 root.clipboard_append(str(cellValue))
                 root.update()
             except Exception as e:
-                #print(f"Error copying cell value: {e}")
+                print(f"Error copying cell value: {e}")
 
     tree.bind("<Button-3>", copyCell)
     tree.bind("<Double-1>", copyCell)
