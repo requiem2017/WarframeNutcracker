@@ -55,9 +55,9 @@ def getWarframeMarketData(itemsList=[], checkOrder=False, checkItemInfo=False, i
                     data = response.json()
                     if 'payload' in data:
                         return data['payload']['items']
-                print(f"Initialization: Error {response.status_code}")
+                #print(f"Initialization: Error {response.status_code}")
             except Exception as e:
-                print(f"Initialization: Request failed - {e}")
+                #print(f"Initialization: Request failed - {e}")
                 time.sleep(delay)
         return results
     
@@ -165,8 +165,8 @@ def imageOcr(imagePath, threshold=150):
             sentence = re.sub(r"(\S)Prime(\S)", r"\1 Prime \2", sentence)
             sentence = re.sub(r"(\S)蓝图", r"\1 蓝图", sentence)
             itemNames.append(sentence)
-    print(f"finish processed image {imagePath}")
-    print(f"Items in the image: {itemNames}")
+    #print(f"finish processed image {imagePath}")
+    #print(f"Items in the image: {itemNames}")
     return itemNames
 
 
@@ -216,7 +216,7 @@ def getItemPlat(itemServerNames):
         for item in itemServerNames:
             orderList = getWarframeMarketData(itemsList=[item], checkOrder=True)[item]["orders"]
             filteredItems = [order for order in orderList if order["user"]["status"] != "offline" and order["order_type"] == "sell"]
-            sortedItems = sorted(filteredItems, key=lambda x: x["platinum"])[:10]
+            sortedItems = sorted(filteredItems, key=lambda x: x["platinum"])[:3]
             averagePlatinum = sum(order["platinum"] for order in sortedItems) / len(sortedItems)
             result.append(averagePlatinum)
     except Exception as e:
@@ -231,10 +231,10 @@ def getItemDucats(itemServerNames):
         
         for key in itemServerNames:
             if key in ducatsDataDict:
-                print(f"Using cached data for {key}")
+                #print(f"Using cached data for {key}")
                 result.append(ducatsDataDict[key])
             else:
-                print(f"Fetching Ducats for {key}")
+                #print(f"Fetching Ducats for {key}")
                 ducatsData = getWarframeMarketData(itemsList=[key], checkItemInfo=True)
                 
                 if key in ducatsData:
@@ -272,34 +272,34 @@ def loadImages(folderPath):
         if not imageFiles:
             messagebox.showinfo("No Images Found", "The selected folder contains no PNG or JPG images.")
             return
-        print("===============Processing images")
+        #print("===============Processing images")
         timea = time.time()
         itemList = processImages(imageFiles)
         timeb = time.time()
-        print(f"Elapsed time: {timeb - timea}")
+        #print(f"Elapsed time: {timeb - timea}")
 
-        print("===============Getting server names")
+        #print("===============Getting server names")
         timea = time.time()
         itemServerNames, matchedNames, errorItems = getItemServerName(itemList)
         timeb = time.time()
-        print(f"Elapsed time: {timeb - timea}")
+        #print(f"Elapsed time: {timeb - timea}")
 
-        print("===============Checking sell orders")
+        #print("===============Checking sell orders")
         timea = time.time()
         itemPlat = getItemPlat(itemServerNames)
         timeb = time.time()
 
-        print(f"Elapsed time: {timeb - timea}")
-        print("===============Getting item info")
+        #print(f"Elapsed time: {timeb - timea}")
+        #print("===============Getting item info")
         timea = time.time()
         itemDucats = getItemDucats(itemServerNames)
         timeb = time.time()
 
-        print(f"Elapsed time: {timeb - timea}")
-        print(itemServerNames)
-        print(len(matchedNames), matchedNames)
-        print(len(itemDucats), itemDucats)
-        print(len(itemPlat), itemPlat)
+        #print(f"Elapsed time: {timeb - timea}")
+        #print(itemServerNames)
+        #print(len(matchedNames), matchedNames)
+        #print(len(itemDucats), itemDucats)
+        #print(len(itemPlat), itemPlat)
         df = pd.DataFrame({
             "name": matchedNames,
             "ducats": itemDucats,
@@ -366,7 +366,7 @@ def displayResults(results, errorItems):
                 root.clipboard_append(str(cellValue))
                 root.update()
             except Exception as e:
-                print(f"Error copying cell value: {e}")
+                #print(f"Error copying cell value: {e}")
 
     tree.bind("<Button-3>", copyCell)
     tree.bind("<Double-1>", copyCell)
@@ -406,6 +406,3 @@ resultsFrame = tk.Frame(root, borderwidth=1, relief="sunken")
 resultsFrame.pack(fill="both", expand=True, padx=10, pady=10)
 
 root.mainloop()
-
-
-
