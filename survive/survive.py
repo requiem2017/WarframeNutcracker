@@ -151,9 +151,7 @@ while True:
                 ahk.click()
                 time.sleep(np.random.uniform(0.1, 0.3))
 
-            ahk.key_press('Space Down')
-            time.sleep(np.random.uniform(0.05, 0.08))
-            ahk.key_press('Space Up')
+            ahk.key_press('Space')
             time.sleep(np.random.uniform(0.1, 0.3))
 
             if currWindow.get_title() != "Warframe":
