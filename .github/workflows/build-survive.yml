@@ -7,11 +7,11 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "**/*.py"
+      - "**/survive.py"
   pull_request:
     branches: [ "main" ]
     paths:
-      - "**/*.py"
+      - "**/survive.py"
   workflow_dispatch: 
 
 permissions:
@@ -31,13 +31,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r survive/requirements.txt
     - name: Build with PyInstaller
       run: |
-        pyinstaller stockOCR.spec
+        pyinstaller survive/survive.spec
 
     - name: Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: nutCracker
+        name: survive
         path: dist/
