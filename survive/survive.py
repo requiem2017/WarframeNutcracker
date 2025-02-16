@@ -147,7 +147,7 @@ while True:
                 speed=np.random.uniform(10, 20)
             )
 
-            for _ in range(2):
+            for _ in range(3):
                 ahk.click()
                 time.sleep(np.random.uniform(0.1, 0.3))
 
