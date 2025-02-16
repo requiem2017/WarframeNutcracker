@@ -28,14 +28,14 @@ def load_config():
             return json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
         print("Error: Could not load config.json. Using default values.")
-        return {"x": 474, "y": 303, "scale": 1, "nutFlag": False}  # Default values
+        return {"x": 474, "y": 303, "scale": 1, "nutFlag": True}  # Default values
     
 # Read JSON
 config = load_config()
 click_x = config.get("x")
 click_y = config.get("y")
-scale = config.get("scale") 
-nutFlag = config.get("nutFlag", False)
+scale = config.get("scale")
+nutFlag = config.get("nutFlag")
 
 
 def checkRed(image):
