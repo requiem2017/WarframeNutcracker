@@ -9,10 +9,11 @@ import time
 import winsound
 import gc  # Garbage collector for explicit memory cleanup
 import logging
-
-nutFlag = False
-
+import json
 from ahk import AHK
+
+
+
 ahk = AHK(executable_path="C:\\Program Files\\AutoHotkey\\v1.1.37.02\\AutoHotkeyU64.exe")
 
 
@@ -21,9 +22,21 @@ logging.disable(logging.DEBUG)
 logging.disable(logging.WARNING)
 ocr = PaddleOCR(lang="ch")
 
+def load_config():
+    try:
+        with open("config.json", "r") as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        print("Error: Could not load config.json. Using default values.")
+        return {"x": 474, "y": 303, "scale": 1, "nutFlag": False}  # Default values
+    
+# Read JSON
+config = load_config()
+click_x = config.get("x")
+click_y = config.get("y")
+scale = config.get("scale") 
+nutFlag = config.get("nutFlag", False)
 
-
-scale = 1
 
 def checkRed(image):
 
@@ -129,8 +142,8 @@ while True:
             time.sleep(np.random.uniform(0.1, 0.3))
             randRange = 20
             ahk.mouse_move(
-                x=np.random.uniform(474-randRange, 474+randRange), 
-                y=np.random.uniform(303-randRange, 303+randRange), 
+                x=np.random.uniform(click_x-randRange, click_x+randRange), 
+                y=np.random.uniform(click_y-randRange, click_y+randRange), 
                 speed=np.random.uniform(10, 20)
             )
 
