@@ -4,7 +4,6 @@ paddleocr==2.9.1
 paddlepaddle==2.6.2
 pillow
 pyinstaller
-requests==2.32.3
 scipy==1.14.1
 ahk
 win32gui
