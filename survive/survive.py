@@ -139,11 +139,12 @@ while True:
     screenshot = getScreenshot(window, scale)
 
     if nutFlag:
-        outputFlag = True
+        
         result, _ = imageOcr(screenshot, (0.0, 0.0, 0.35, 0.2), "选择")
 
         # Relic UI found, select the first relic
         if result:
+            outputFlag = True
             print("--------- \n Relic UI detected, trying to select")
 
             oxygenCount = 0
