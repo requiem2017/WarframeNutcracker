@@ -14,7 +14,7 @@ from ahk import AHK
 
 
 
-ahk = AHK(executable_path="C:\\Program Files\\AutoHotkey\\v1.1.37.02\\AutoHotkeyU64.exe")
+
 
 
 # Initialize OCR and AHK once
@@ -22,6 +22,9 @@ logging.disable(logging.DEBUG)
 logging.disable(logging.WARNING)
 ocr = PaddleOCR(lang="ch")
 
+ahk = AHK(executable_path="AutoHotkeyU64.exe")
+
+# Read JSON
 def load_config():
     try:
         with open("config.json", "r") as file:
@@ -30,12 +33,12 @@ def load_config():
         print("Error: Could not load config.json. Using default values.")
         return {"x": 474, "y": 303, "scale": 1, "nutFlag": True}  # Default values
     
-# Read JSON
+
 config = load_config()
-click_x = config.get("x")
-click_y = config.get("y")
-scale = config.get("scale")
-nutFlag = config.get("nutFlag")
+click_x = config.get("x", 400)
+click_y = config.get("y", 400)
+scale = config.get("scale", 1)
+nutFlag = config.get("nutFlag", True)
 
 
 def checkRed(image):
@@ -84,11 +87,15 @@ def imageOcr(image, crop_ratios=(0, 0, 1, 1), matchText="", flag = 1):
         return score > 80, cropped_array
     #check death UI
     elif flag == 2:
-        if "活中" in texts:
+        if "复活中" in texts:
             return False, cropped_array
+        score = fuzz.partial_token_sort_ratio(matchText, texts)
+        return score > 50, cropped_array
+        '''
         for i in matchText:
             if i in texts:
                 return True, cropped_array
+        '''
     else:
         raise Exception("Unknown usecase of imageOCR")
     
@@ -123,19 +130,28 @@ def getScreenshot(window, scale):
 window = WindowMgr()
 window.find_window_wildcard("Warframe.*")
 oxygenCount = 0
+outputFlag = True
 while True:
+    if outputFlag:
+        print("--------- \n Running, waiting relic UI")
+        outputFlag = False
+    
     screenshot = getScreenshot(window, scale)
 
     if nutFlag:
-        result, _ = imageOcr(screenshot, (0.21, 0.03, 0.31, 0.09), "选择")
+        outputFlag = True
+        result, _ = imageOcr(screenshot, (0.0, 0.0, 0.35, 0.2), "选择")
 
-        
+        # Relic UI found, select the first relic
         if result:
+            print("--------- \n Relic UI detected, trying to select")
+
             oxygenCount = 0
+
             winsound.Beep(1000, 1000)
             time.sleep(1)
             winsound.Beep(2000, 1000)
-            
+
             ahk.block_input("MouseMove")
             currWindow = ahk.get_active_window()
             ahk.win_activate("Warframe")
@@ -157,10 +173,12 @@ while True:
             if currWindow.get_title() != "Warframe":
                 currWindow.activate()
             ahk.block_input("MouseMoveOff")
+            print(" Relic selection finished")
 
     warningFlag, cropped_array = imageOcr(screenshot, (0.4, 0.4, 0.6, 1), "复活死亡", flag = 2)
     if warningFlag:
         print ("death flag detected")
+
     '''
     flag2, cropped_array = imageOcr(screenshot, (0.01, 0.18, 0.1, 0.25), "", flag = 3)
     if flag2:
@@ -168,7 +186,7 @@ while True:
     if flag2:
         print("oxygen limit")
     '''
-
+    # Death detected, pause the game
     if (warningFlag or oxygenCount > 5):
         for _ in range(5):
             winsound.Beep(1000, 500)
@@ -193,11 +211,11 @@ while True:
         ahk.key_press('Esc Up')
 
         ahk.block_input("MouseMoveOff")
-    
-        raise Exception("Check death") 
+        input("Death flag detected, Press any key to exit...")
+        raise Exception("Check death")
         #exit()
 
-    # Explicitly delete screenshot and invoke garbage collection
+    # Delete screenshot, garbage collection
     del screenshot
     gc.collect()
 

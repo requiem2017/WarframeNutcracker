@@ -10,6 +10,8 @@ datas += collect_data_files('paddle')
 tmp_ret = collect_all('paddleocr')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
+datas.append(('AutoHotkeyU64.exe', '.'))
+
 
 a = Analysis(
     ['survive.py'],
