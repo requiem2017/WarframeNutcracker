@@ -40,4 +40,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: survive
-        path: dist/
+        path: |
+            dist/
+            survive/AutoHotkeyU64.exe
+            survive/config.json
