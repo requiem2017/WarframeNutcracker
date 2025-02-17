@@ -36,11 +36,15 @@ jobs:
       run: |
         pyinstaller survive/survive.spec
 
-    - name: Artifact
+    - name: Prepare artifact folder
+      run: |
+        mkdir output
+        move dist\* output\
+        move survive\AutoHotkeyU64.exe output\
+        move survive\config.json output\
+
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: survive
-        path: |
-            dist/
-            survive/AutoHotkeyU64.exe
-            survive/config.json
+        path: output/
