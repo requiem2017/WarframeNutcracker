@@ -133,7 +133,10 @@ oxygenCount = 0
 outputFlag = True
 while True:
     if outputFlag:
-        print("--------- \n Running, waiting relic UI")
+        if nutFlag:
+            print("--------- \n Running, waiting relic UI")
+        else:
+            print("--------- \n Running, checking death")
         outputFlag = False
     
     screenshot = getScreenshot(window, scale)
