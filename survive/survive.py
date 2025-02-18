@@ -176,7 +176,7 @@ while True:
             ahk.block_input("MouseMoveOff")
             print(" Relic selection finished")
 
-    warningFlag, cropped_array = imageOcr(screenshot, (0.4, 0.4, 0.6, 1), "复活死亡", flag = 2)
+    warningFlag, cropped_array = imageOcr(screenshot, (0.4, 0.4, 0.6, 1), "按住来复活", flag = 2)
     if warningFlag:
         print ("death flag detected")
 
