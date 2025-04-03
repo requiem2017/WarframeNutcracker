@@ -14,8 +14,7 @@ from ahk import AHK
 
 
 
-
-
+timea = time.time()
 
 # Initialize OCR and AHK once
 logging.disable(logging.DEBUG)
@@ -31,7 +30,7 @@ def load_config():
             return json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
         print("Error: Could not load config.json. Using default values.")
-        return {"x": 474, "y": 303, "scale": 1, "nutFlag": True}  # Default values
+        return {"x": 474, "y": 303, "scale": 1, "nutFlag": True, "luaFlag": False, "stopTimer" : 150}  # Default values
     
 
 config = load_config()
@@ -39,18 +38,19 @@ click_x = config.get("x", 400)
 click_y = config.get("y", 400)
 scale = config.get("scale", 1)
 nutFlag = config.get("nutFlag", True)
-
+lua = config.get("luaFlag", False)
+stopTimer = config.get("stopTimer", 120)
 
 def checkRed(image):
-
-    red_threshold = 200  # Intensity
-    percentage_threshold = 0.2  # 20% threshold
+    image = image.astype(np.int32)
+    red_threshold = 150  # Intensity
+    percentage_threshold = 0.4  # threshold
 
     red_channel = image[:, :, 0]  # R
     green_channel = image[:, :, 1]  # G
     blue_channel = image[:, :, 2]  # B
 
-    red_dominant = (red_channel > red_threshold) & (red_channel > green_channel) & (red_channel > blue_channel)
+    red_dominant = (red_channel > red_threshold) & (red_channel > green_channel+50) & (red_channel > blue_channel+50)
 
 
     red_pixel_count = np.sum(red_dominant)
@@ -70,13 +70,14 @@ def imageOcr(image, crop_ratios=(0, 0, 1, 1), matchText="", flag = 1):
     image_array = np.array(image)
     cropped_array = image_array[top:bottom, left:right]
 
-    #check oxygen
     if flag == 3:
         return checkRed(cropped_array), cropped_array
 
     result = ocr.ocr(cropped_array, cls=True)
+    
 
     if not result or not result[0]:
+        #print("OCR error, no text")
         return False, cropped_array
 
     texts = "".join([line[-1][0] for line in result[0]])
@@ -87,15 +88,28 @@ def imageOcr(image, crop_ratios=(0, 0, 1, 1), matchText="", flag = 1):
         return score > 80, cropped_array
     #check death UI
     elif flag == 2:
+
         if "复活中" in texts:
             return False, cropped_array
         score = fuzz.partial_token_sort_ratio(matchText, texts)
         return score > 50, cropped_array
-        '''
+        """
         for i in matchText:
             if i in texts:
                 return True, cropped_array
+        """
+    
         '''
+        try:
+            number = int("".join(filter(str.isdigit, texts)))
+            print("oxygen %d"% (number))
+        except:
+            print("oxygen reading error")
+            number = 999
+        finally:
+            return number < 40, cropped_array
+        '''
+        
     else:
         raise Exception("Unknown usecase of imageOCR")
     
@@ -117,7 +131,7 @@ class WindowMgr:
 
     def set_foreground(self):
         shell = win32com.client.Dispatch("WScript.Shell")
-        shell.SendKeys('%')
+        shell.SendKeys("%")
         win32gui.SetForegroundWindow(self._handle)
 
     def get_rect(self):
@@ -171,27 +185,31 @@ while True:
                 ahk.click()
                 time.sleep(np.random.uniform(0.1, 0.3))
 
-            ahk.key_press('Space')
+            ahk.key_press("Space")
             time.sleep(np.random.uniform(0.1, 0.3))
+
+            if lua:
+                time.sleep(30)
+                ahk.key_press("Esc")
 
             if currWindow.get_title() != "Warframe":
                 currWindow.activate()
             ahk.block_input("MouseMoveOff")
             print(" Relic selection finished")
 
-    warningFlag, cropped_array = imageOcr(screenshot, (0.4, 0.4, 0.6, 1), "按住来复活", flag = 2)
+    warningFlag, cropped_array = imageOcr(screenshot, (0.4, 0.3, 0.6, 1), "按住来复活", flag = 2)
     if warningFlag:
         print ("death flag detected")
 
-    '''
-    flag2, cropped_array = imageOcr(screenshot, (0.01, 0.18, 0.1, 0.25), "", flag = 3)
+
+    flag2, _ = imageOcr(screenshot, (0.025, 0.1, 0.03, 0.13), "", flag = 3)
     if flag2:
-        oxygenCount == 1
-    if flag2:
+        oxygenCount += 1
         print("oxygen limit")
-    '''
+    
     # Death detected, pause the game
-    if (warningFlag or oxygenCount > 5):
+    timeb = time.time()
+    if (warningFlag or oxygenCount > 3 or timeb - timea > stopTimer * 60):
         for _ in range(5):
             winsound.Beep(1000, 500)
             time.sleep(0.5)
@@ -210,17 +228,26 @@ while True:
         ahk.click()
         time.sleep(np.random.uniform(0.1, 0.3))
 
-        ahk.key_press('Esc Down')
+        ahk.key_press("Esc Down")
         time.sleep(np.random.uniform(0.05, 0.08))
-        ahk.key_press('Esc Up')
+        ahk.key_press("Esc Up")
 
         ahk.block_input("MouseMoveOff")
-        input("Death flag detected, Press any key to exit...")
-        raise Exception("Check death")
+        if warningFlag:
+            input("Death flag detected, Press [Enter] to exit...")
+            raise Exception("Check death")
+        elif oxygenCount > 3:
+            input("Oxygen flag detected, Press [Enter] to exit...")
+            raise Exception("Check oxygen")
+        else:
+            input("Timer limit detected, Press [Enter] to exit...")
+            raise Exception("Time up")
+
+
         #exit()
 
     # Delete screenshot, garbage collection
     del screenshot
     gc.collect()
 
-    time.sleep(3)
+    time.sleep(2)

@@ -1,6 +1,8 @@
 {
-    "x": 474, 
-    "y": 303, 
+    "x": 260, 
+    "y": 200, 
     "scale": 1, 
-    "nutFlag": false
+    "nutFlag": true,
+    "luaFlag": false,
+    "stopTimer": 120
 }
