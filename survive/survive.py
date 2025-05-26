@@ -224,18 +224,7 @@ while True:
         ahk.win_activate("Warframe")
         time.sleep(np.random.uniform(0.1, 0.3))
 
-        randRange = 200
-        ahk.mouse_move(
-            x=np.random.uniform(700-randRange, 700+randRange), 
-            y=np.random.uniform(500-randRange, 500+randRange), 
-            speed=np.random.uniform(10, 20)
-        )
-        ahk.click()
-        time.sleep(np.random.uniform(0.1, 0.3))
-
-        ahk.key_press("Esc Down")
-        time.sleep(np.random.uniform(0.05, 0.08))
-        ahk.key_press("Esc Up")
+        ahk.key_press("Esc")
 
         ahk.block_input("MouseMoveOff")
         if warningFlag:
