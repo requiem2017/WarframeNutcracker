@@ -202,14 +202,19 @@ while True:
         print ("death flag detected")
 
 
-    flag2, _ = imageOcr(screenshot, (0.025, 0.1, 0.03, 0.13), "", flag = 3)
+    flag2, _ = imageOcr(screenshot, (0.025, 0.12, 0.033, 0.13), "", flag = 3)
+    if flag2:
+        oxygenCount += 1
+        print("oxygen limit")
+
+    flag2, _ = imageOcr(screenshot, (0.025, 0.15, 0.03, 0.16), "", flag = 3)
     if flag2:
         oxygenCount += 1
         print("oxygen limit")
     
     # Death detected, pause the game
     timeb = time.time()
-    if (warningFlag or oxygenCount > 3 or timeb - timea > stopTimer * 60):
+    if (warningFlag or oxygenCount >= 3 or timeb - timea > stopTimer * 60):
         for _ in range(5):
             winsound.Beep(1000, 500)
             time.sleep(0.5)
