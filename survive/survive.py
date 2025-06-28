@@ -202,7 +202,7 @@ while True:
         print ("death flag detected")
 
 
-    flag2, _ = imageOcr(screenshot, (0.025, 0.12, 0.033, 0.13), "", flag = 3)
+    flag2, _ = imageOcr(screenshot, (0.025, 0.19, 0.033, 0.20), "", flag = 3)
     if flag2:
         oxygenCount += 1
         print("oxygen limit")
