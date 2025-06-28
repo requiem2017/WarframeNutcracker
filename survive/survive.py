@@ -211,6 +211,11 @@ while True:
     if flag2:
         oxygenCount += 1
         print("oxygen limit")
+
+    flag2, _ = imageOcr(screenshot, (0.025, 0.21, 0.03, 0.22), "", flag = 3)
+    if flag2:
+        oxygenCount += 1
+        print("oxygen limit")
     
     # Death detected, pause the game
     timeb = time.time()
