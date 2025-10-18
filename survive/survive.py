@@ -61,7 +61,6 @@ def checkRed(image):
     return red_percentage > percentage_threshold
 
 def imageOcr(image, crop_ratios=(0, 0, 1, 1), matchText="", flag = 1):
-    #crop using ratio
     img_width, img_height = image.size
     left = int(img_width * crop_ratios[0])
     top = int(img_height * crop_ratios[1])
@@ -93,11 +92,11 @@ def imageOcr(image, crop_ratios=(0, 0, 1, 1), matchText="", flag = 1):
             return False, cropped_array
         score = fuzz.partial_token_sort_ratio(matchText, texts)
         return score > 50, cropped_array
-        """
+        '''
         for i in matchText:
             if i in texts:
                 return True, cropped_array
-        """
+        '''
     
         '''
         try:
@@ -145,7 +144,14 @@ window = WindowMgr()
 window.find_window_wildcard("Warframe.*")
 oxygenCount = 0
 outputFlag = True
+
+time.sleep(3)
 while True:
+    if not ahk.key_state('w'):
+        ahk.key_down('w')
+    if not ahk.key_state('LButton'):
+        ahk.key_down('LButton')
+    
     if outputFlag:
         if nutFlag:
             print("--------- \n Running, waiting relic UI")
@@ -161,6 +167,8 @@ while True:
 
         # Relic UI found, select the first relic
         if result:
+            ahk.key_up('w')
+            ahk.key_up('LButton')
             outputFlag = True
             print("--------- \n Relic UI detected, trying to select")
 
@@ -170,7 +178,7 @@ while True:
             time.sleep(1)
             winsound.Beep(2000, 1000)
 
-            ahk.block_input("MouseMove")
+            ####ahk.block_input("MouseMove")
             currWindow = ahk.get_active_window()
             ahk.win_activate("Warframe")
             time.sleep(np.random.uniform(0.1, 0.3))
@@ -185,7 +193,16 @@ while True:
                 ahk.click()
                 time.sleep(np.random.uniform(0.1, 0.3))
 
-            ahk.key_press("Space")
+            time.sleep(1)
+
+
+            ahk.key_down("Space")
+            time.sleep(0.1)
+            ahk.key_up("Space")
+
+            ahk.key_down("Space")
+            time.sleep(0.1)
+            ahk.key_up("Space")
             time.sleep(np.random.uniform(0.1, 0.3))
 
             if lua:
@@ -194,8 +211,16 @@ while True:
 
             if currWindow.get_title() != "Warframe":
                 currWindow.activate()
-            ahk.block_input("MouseMoveOff")
+            #########ahk.block_input("MouseMoveOff")
             print(" Relic selection finished")
+
+            time.sleep(6)
+            for _ in range(3):
+                ahk.click()
+                time.sleep(np.random.uniform(0.1, 0.3))
+
+
+
 
     warningFlag, cropped_array = imageOcr(screenshot, (0.4, 0.3, 0.6, 1), "按住来复活", flag = 2)
     if warningFlag:
@@ -225,17 +250,26 @@ while True:
             time.sleep(0.5)
 
         
-        ahk.block_input("MouseMove")
+        ###ahk.block_input("MouseMove")
         ahk.win_activate("Warframe")
+        time.sleep(np.random.uniform(0.1, 0.3))
+
+        randRange = 200
+        ahk.mouse_move(
+            x=np.random.uniform(700-randRange, 700+randRange), 
+            y=np.random.uniform(500-randRange, 500+randRange), 
+            speed=np.random.uniform(10, 20)
+        )
+        ahk.click()
         time.sleep(np.random.uniform(0.1, 0.3))
 
         ahk.key_press("Esc")
 
-        ahk.block_input("MouseMoveOff")
+        ###ahk.block_input("MouseMoveOff")
         if warningFlag:
             input("Death flag detected, Press [Enter] to exit...")
             raise Exception("Check death")
-        elif oxygenCount > 3:
+        elif oxygenCount >= 3:
             input("Oxygen flag detected, Press [Enter] to exit...")
             raise Exception("Check oxygen")
         else:
@@ -248,5 +282,5 @@ while True:
     # Delete screenshot, garbage collection
     del screenshot
     gc.collect()
-
+    #ahk.key_press("1")
     time.sleep(2)
