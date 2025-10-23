@@ -93,11 +93,11 @@ def imageOcr(image, crop_ratios=(0, 0, 1, 1), matchText="", flag = 1):
             return False, cropped_array
         score = fuzz.partial_token_sort_ratio(matchText, texts)
         return score > 50, cropped_array
-        """
+        '''
         for i in matchText:
             if i in texts:
                 return True, cropped_array
-        """
+        '''
     
         '''
         try:
