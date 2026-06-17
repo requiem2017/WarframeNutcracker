@@ -18,7 +18,7 @@ nutFlag为false时，只检测死亡情况不开核桃，用于挂机刷材料
 # 截图范例
 ![alt text](https://github.com/requiem2017/WarframeDucatsOCR/blob/main/ducatsOCR/example/test.png)
 # UI
-![alt text](https://github.com/requiem2017/WarframeDucatsOCR/blob/main/ducatsOCR/example/UI.png)
+![alt text](https://github.com/requiem2017/WarframeDucatsOCR/blob/main/ducatsOCR/example/UI.png.png)
 # TODO List
 - [ ] WF market 自动挂前x个值钱物品
   - [ ] 只挂重复物品
